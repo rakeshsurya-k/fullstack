@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Budget Planner</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Budget Planner</h1>
+
+    <form action="/add" method="POST" id="entry-form">
+    <input type="text" name="desc" placeholder="Description" required />
+    <input type="number" name="amount" placeholder="Amount" required step="0.01" />
+    <select name="type" required>
+        <option value="" disabled selected>Type</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+    </select>
+    <select name="category" required>
+        <option value="" disabled selected>Category</option>
+        <option value="salary">Salary</option>
+        <option value="food">Food</option>
+        <option value="rent">Rent</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="other">Other</option>
+    </select>
+    <button type="submit">Add</button>
+    </form>
+
+    <div id="summary">
+    <h2>Summary</h2>
+    <p>Total Income: $<%= totalIncome.toFixed(2) %></p>
+    <p>Total Expense: $<%= totalExpense.toFixed(2) %></p>
+    <p>Balance: $<%= balance.toFixed(2) %></p>
+    </div>
+
+    <ul id="entries">
+    <% entries.forEach(entry => { %>
+        <li class="<%= entry.type %>">
+        <div>
+            <strong><%= entry.desc %></strong> (<%= entry.category %>) - $<%= entry.amount.toFixed(2) %>
+        </div>
+        <form action="/delete/<%= entry.id %>" method="POST" style="display:inline;">
+            <button class="delete-btn" type="submit">x</button>
+        </form>
+        </li>
+    <% }) %>
+    </ul>
+</div>
+</body>
+</html>
